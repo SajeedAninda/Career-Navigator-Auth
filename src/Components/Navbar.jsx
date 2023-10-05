@@ -31,7 +31,7 @@ const Navbar = () => {
                     </NavLink>
                 </div>
                 <div>
-                    <button className='px-4 py-3 rounded-lg font-bold bg-[#85D7A9] text-white'>Start Applying</button>
+                    <Link to={"/login"}><button className='px-4 py-3 rounded-lg font-bold bg-[#85D7A9] text-white'>Login</button></Link>
                 </div>
             </nav>
         </div>

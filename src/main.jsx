@@ -11,6 +11,8 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import Login from './Components/Login.jsx'
+import Register from './Components/Register.jsx'
 
 const router = createBrowserRouter([
   {
@@ -38,6 +40,14 @@ const router = createBrowserRouter([
         path: "/jobdetails/:id",
         loader: () => fetch(`/jobs.json`),
         element: <JobDetails></JobDetails>,
+      },
+      {
+        path: "/login",
+        element: <Login></Login>,
+      },
+      {
+        path: "/register",
+        element: <Register></Register>,
       }
     ],
   },
