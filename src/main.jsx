@@ -14,6 +14,7 @@ import {
 import Login from './Components/Login.jsx'
 import Register from './Components/Register.jsx'
 import AuthProvider from '../Auth/AuthProvider.jsx'
+import PrivateRoute from '../Auth/PrivateRoute.jsx'
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
       {
         path: "/appliedjobs",
         loader: () => fetch(`/jobs.json`),
-        element: <AppliedJobs></AppliedJobs>,
+        element: <PrivateRoute><AppliedJobs></AppliedJobs></PrivateRoute>,
       },
       {
         path: "/statistics",
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
       {
         path: "/jobdetails/:id",
         loader: () => fetch(`/jobs.json`),
-        element: <JobDetails></JobDetails>,
+        element: <PrivateRoute><JobDetails></JobDetails></PrivateRoute>,
       },
       {
         path: "/login",
