@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import { AuthContext } from '../../Auth/AuthProvider';
 
 const Navbar = () => {
+    let { currentUser,logOut } = useContext(AuthContext);
+    let handleLogout = () => {
+        logOut().then(() => {
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
     return (
         <div>
             <nav className='py-6 flex flex-col gap-4 lg:gap-0 lg:flex-row justify-between items-center'>
@@ -30,9 +38,20 @@ const Navbar = () => {
                         Blogs
                     </NavLink>
                 </div>
-                <div>
-                    <Link to={"/login"}><button className='px-4 py-3 rounded-lg font-bold bg-[#85D7A9] text-white'>Login</button></Link>
-                </div>
+                {
+                    currentUser ?
+                        <div className='flex items-center gap-2'>
+                            {currentUser && <p>{currentUser.email}</p>}
+                            <button onClick={handleLogout} className='px-4 py-3 rounded-lg font-bold bg-[#85D7A9] text-white'>Log Out</button>
+                        </div>
+                        :
+                        <div className='flex items-center gap-2'>
+                            {currentUser && <p>{currentUser.email}</p>}
+                            <Link to={"/login"}><button className='px-4 py-3 rounded-lg font-bold bg-[#85D7A9] text-white'>Login</button></Link>
+                        </div>
+                }
+
+
             </nav>
         </div>
     );
