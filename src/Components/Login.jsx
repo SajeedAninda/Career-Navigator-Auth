@@ -1,7 +1,29 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+
+import { Link, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../../Auth/AuthProvider';
 
 const Login = () => {
+    let { googleLogin,login } = useContext(AuthContext);
+    let navigate = useNavigate();
+
+    let handleGoogle = () => {
+        googleLogin()
+            .then((result) => {
+                navigate("/");
+            }).catch((error) => {
+                console.log(error);
+            });
+    }   
+
+    let handleLogin=(e)=>{
+        e.preventDefault();
+        let email=e.target.email.value;
+        let password=e.target.password.value;
+        console.log(email,password)
+    }
+
+
     return (
         <div class="">
             <div class="p-8 lg:w-1/2 mx-auto">
@@ -25,6 +47,7 @@ const Login = () => {
                                 Github
                             </button>
                             <button
+                                onClick={handleGoogle}
                                 class="flex items-center py-2 px-4 text-sm uppercase rounded bg-white hover:bg-gray-100 text-[#85D7A9] border border-transparent hover:border-transparent hover:text-gray-700 shadow-md hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
                             >
                                 <svg
@@ -59,12 +82,14 @@ const Login = () => {
                         <p>Or sign in with credentials</p>
                         <p className='font-semibold text-lg'>Dont't have an Account? <Link to={"/register"}><span className='text-[#51c081] font-bold hover:underline cursor-pointer'>Register</span></Link></p>
                     </p>
-                    <form class="mt-6">
+                    <form onSubmit={handleLogin} class="mt-6">
                         <div class="relative">
                             <input
                                 class="appearance-none border pl-12 border-gray-100 shadow-sm focus:shadow-md focus:placeholder-gray-600  transition  rounded-md w-full py-3 text-gray-600 leading-tight focus:outline-none focus:ring-gray-600 focus:shadow-outline"
                                 id="username"
-                                type="text"
+                                required
+                                type="email"
+                                name='email'
                                 placeholder="Email"
                             />
                             <div class="absolute left-0 inset-y-0 flex items-center">
@@ -87,8 +112,9 @@ const Login = () => {
                             <input
                                 class="appearance-none border pl-12 border-gray-100 shadow-sm focus:shadow-md focus:placeholder-gray-600  transition  rounded-md w-full py-3 text-gray-600 leading-tight focus:outline-none focus:ring-gray-600 focus:shadow-outline"
                                 id="username"
-                                type="text"
+                                type="password"
                                 placeholder="Password"
+                                name='password'
                             />
                             <div class="absolute left-0 inset-y-0 flex items-center">
                                 <svg
@@ -109,6 +135,7 @@ const Login = () => {
                         </div>
                         <div class="flex items-center justify-center mt-8">
                             <button
+                            type='submit'
                                 class="text-white py-2 px-4 uppercase rounded bg-[#85D7A9] hover:bg-[#85D7A9] shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
                             >
                                 Sign in

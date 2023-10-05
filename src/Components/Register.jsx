@@ -1,7 +1,32 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../Auth/AuthProvider';
+
 
 const Register = () => {
+    const { register } = useContext(AuthContext);
+    let navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [error, setError] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleRegister = (e) => {
+        e.preventDefault();
+        if (!/^(?=.*[A-Z])(?=.*\d).{6,}$/.test(password)) {
+            setError("Password should be at least 6 characters long and contain at least one uppercase letter and one number.");
+        } else {
+            setError("");
+            register(email, password)
+                .then((userCredential) => {
+                    navigate("/");
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    }
+
+
     return (
         <div className="min-w-screen min-h-screen flex items-center justify-center px-5 py-5">
             <div className="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden" style={{ maxWidth: '1000px' }}
@@ -16,7 +41,7 @@ const Register = () => {
                             <p>Enter your information to register</p>
                             <p className='font-semibold text-lg'>Already have an Account? <Link to={"/login"}><span className='text-[#51c081] font-bold hover:underline cursor-pointer'>Login</span></Link></p>
                         </div>
-                        <div>
+                        <form onSubmit={handleRegister}>
                             <div className="flex -mx-3">
                                 <div className="w-1/2 px-3 mb-5">
                                     <label htmlFor="firstName" className="text-xs font-semibold px-1">First name</label>
@@ -40,8 +65,14 @@ const Register = () => {
                                     <label for="" className="text-xs font-semibold px-1">Email</label>
                                     <div className="flex">
                                         <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i className="mdi mdi-email-outline text-gray-400 text-lg"></i></div>
-                                        <input type="email" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="johnsmith@example.com">
-                                        </input>
+                                        <input
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            type="email"
+                                            required
+                                            className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                                            placeholder="johnsmith@example.com"
+                                        />
+
                                     </div>
                                 </div>
                             </div>
@@ -50,17 +81,18 @@ const Register = () => {
                                     <label for="" className="text-xs font-semibold px-1">Password</label>
                                     <div className="flex">
                                         <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i className="mdi mdi-lock-outline text-gray-400 text-lg"></i></div>
-                                        <input type="password" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="************">
+                                        <input onChange={(e) => setPassword(e.target.value)} type="password" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="************">
                                         </input>
                                     </div>
                                 </div>
                             </div>
                             <div className="flex -mx-3">
                                 <div className="w-full px-3 mb-5">
+                                    <p className='text-red-600'>{error}</p>
                                     <button className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold">REGISTER NOW</button>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
