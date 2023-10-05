@@ -18,7 +18,7 @@ const Register = () => {
             setError("");
             register(email, password)
                 .then((userCredential) => {
-                    navigate("/");
+                    navigate(location?.state ? location.state : '/');
                 })
                 .catch((error) => {
                     console.log(error);

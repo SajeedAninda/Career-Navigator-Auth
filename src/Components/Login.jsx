@@ -1,16 +1,18 @@
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../Auth/AuthProvider';
 
 const Login = () => {
+    let location = useLocation();
+    console.log(location);
     let { googleLogin, login, githubLogin } = useContext(AuthContext);
     let navigate = useNavigate();
 
     let handleGoogle = () => {
         googleLogin()
             .then((result) => {
-                navigate("/");
+                navigate(location?.state ? location.state : '/');
             }).catch((error) => {
                 console.log(error);
             });
@@ -22,7 +24,7 @@ const Login = () => {
         let password = e.target.password.value;
         login(email, password)
             .then((userCredential) => {
-                navigate("/");
+                navigate(location?.state ? location.state : '/');
             })
             .catch((error) => {
                 console.log(error);
@@ -32,7 +34,7 @@ const Login = () => {
     let handleGithub = () => {
         githubLogin()
             .then((result) => {
-                navigate("/");
+                navigate(location?.state ? location.state : '/');
             }).catch((error) => {
                 console.log(error);
             });
@@ -100,7 +102,7 @@ const Login = () => {
                         <div class="relative">
                             <input
                                 class="appearance-none border pl-12 border-gray-100 shadow-sm focus:shadow-md focus:placeholder-gray-600  transition  rounded-md w-full py-3 text-gray-600 leading-tight focus:outline-none focus:ring-gray-600 focus:shadow-outline"
-                                id="username"
+                                id="email"
                                 required
                                 type="email"
                                 name='email'
@@ -125,7 +127,7 @@ const Login = () => {
                         <div class="relative mt-3">
                             <input
                                 class="appearance-none border pl-12 border-gray-100 shadow-sm focus:shadow-md focus:placeholder-gray-600  transition  rounded-md w-full py-3 text-gray-600 leading-tight focus:outline-none focus:ring-gray-600 focus:shadow-outline"
-                                id="username"
+                                id="password"
                                 type="password"
                                 placeholder="Password"
                                 name='password'
