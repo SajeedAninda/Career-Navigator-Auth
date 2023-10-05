@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../Auth/AuthProvider';
 
 const Login = () => {
-    let { googleLogin,login } = useContext(AuthContext);
+    let { googleLogin, login } = useContext(AuthContext);
     let navigate = useNavigate();
 
     let handleGoogle = () => {
@@ -14,13 +14,20 @@ const Login = () => {
             }).catch((error) => {
                 console.log(error);
             });
-    }   
+    }
 
-    let handleLogin=(e)=>{
+    let handleLogin = (e) => {
         e.preventDefault();
-        let email=e.target.email.value;
-        let password=e.target.password.value;
-        console.log(email,password)
+        let email = e.target.email.value;
+        let password = e.target.password.value;
+        login(email,password)
+            .then((userCredential) => {
+                navigate("/");
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
     }
 
 
@@ -135,7 +142,7 @@ const Login = () => {
                         </div>
                         <div class="flex items-center justify-center mt-8">
                             <button
-                            type='submit'
+                                type='submit'
                                 class="text-white py-2 px-4 uppercase rounded bg-[#85D7A9] hover:bg-[#85D7A9] shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
                             >
                                 Sign in
